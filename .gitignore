@@ -8,50 +8,51 @@
 ## Get latest from https://github.com/github/gitignore/blob/main/Dotnet.gitignore
 
 # Build results
-[Dd]ebug/
-[Dd]ebugPublic/
-[Rr]elease/
-[Rr]eleases/
-x64/
-x86/
-[Ww][Ii][Nn]32/
-[Aa][Rr][Mm]/
-[Aa][Rr][Mm]64/
-bld/
-[Bb]in/
-[Oo]bj/
-[Ll]og/
-[Ll]ogs/
+csharp/[Dd]ebug/
+csharp/[Dd]ebugPublic/
+csharp/[Rr]elease/
+csharp/[Rr]eleases/
+csharp/x64/
+csharp/x86/
+csharp/[Ww][Ii][Nn]32/
+csharp/[Aa][Rr][Mm]/
+csharp/[Aa][Rr][Mm]64/
+csharp/bld/
+csharp/[Bb]in/
+csharp/[Oo]bj/
+csharp/[Ll]og/
+csharp/[Ll]ogs/
 
 # .NET Core
-project.lock.json
-project.fragment.lock.json
-artifacts/
+csharp/project.lock.json
+csharp/project.fragment.lock.json
+csharp/artifacts/
 
 # ASP.NET Scaffolding
-ScaffoldingReadMe.txt
+csharp/ScaffoldingReadMe.txt
 
 # NuGet Packages
-*.nupkg
+csharp/*.nupkg
 # NuGet Symbol Packages
-*.snupkg
+csharp/*.snupkg
 
 # Others
-~$*
-*~
-CodeCoverage/
+csharp/~$*
+csharp/*~
+csharp/CodeCoverage/
 
-# MSBuild Binary and Structured Log
-*.binlog
+csharp/# MSBuild Binary and Structured Log
+csharp/*.binlog
 
 # MSTest test Results
-[Tt]est[Rr]esult*/
-[Bb]uild[Ll]og.*
+csharp/[Tt]est[Rr]esult*/
+csharp/[Bb]uild[Ll]og.*
 
 # NUnit
-*.VisualState.xml
-TestResult.xml
-nunit-*.xml
+csharp/*.VisualState.xml
+csharp/TestResult.xml
+csharp/nunit-*.xml
+csharp/.vs
 
 # Added by cargo
 
