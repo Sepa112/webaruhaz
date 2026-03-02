@@ -4,181 +4,22 @@
   <head>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="asd.js" defer></script>
     <script src="script.js" defer></script>
-    <script src="drawgarden.js" defer></script>
-    <script src="packer.js" defer></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
   </head>
 
   <body>
-    <div id="container">
-      <div id="sidepanel">
-        <div class="sidepanel-header">
-          <i class="fas fa-leaf"></i> Kerttervező
-        </div>
-
-        <div class="sidepanel-buttons">
-          <button class="sidepanel-btn trigger_btn" id="open_popup">
-            <i class="fas fa-database"></i> Adatok
-          </button>
-          <button class="sidepanel-btn trigger_btn" id="open_add_custom_plant">
-            <i class="fas fa-plus-circle"></i> Növény hozzáadása
-          </button>
-          <button class="sidepanel-btn trigger_btn" id="open_info_popup">
-            <i class="fas fa-info-circle"></i> Info
-          </button>
-          <button class="sidepanel-btn trigger_btn" id="open_about_popup">
-            <i class="fas fa-users"></i> Rólunk
-          </button>
-  
-        </div>
-
-        <div class="sidepanel-footer">
-          Kerttervező v1.0<br>
-          <small>&copy; 2025</small>
-        </div>
-      </div>
-
-      <div id="elvalaszto">
-      </div>
-
-      <div id="main">
-        <div id="canvascontainer" style="display: block; margin-top: 30px; width: 980px; height: 810px; margin-left: 180px;">
-        </div>
-
-        <!-- Adatok popup -->
-        <div class="popup_overlay" id="popup_overlay">
-          <div class="popup">
-            <button class="close_btn" id="close_popup">&times;</button>
-
-            <div class="popup_header">
-              <h2>Üdvözöljük!</h2>
-            </div>
-
-            <div class="popup_content">
-              <p>Mekkora területet szeretne tervezni?</p>
-              <input type="text" id="area_input" placeholder="Hossz (méter)">
-              <input type="text" id="width_input" placeholder="Szélesség (méter)">
-              <input type="text" id="number_input" placeholder="Mennyi agyást szeretne?"><br>
-              <div id="error_message" class="error_message"></div>
-              <p>Milyen fajtájú növényeket szeretne ültetni?(válasszon a legörülő listából, többet is kijelölhet)</p>
-              <select id="plant_select">
-              </select><br>
-              <select id="fajta_select">
-              </select><br>
-              <input type="number" min="0" name="mennyi" placeholder="Mennyit szeretne belőle?" id="mennyi">
-
-              <button id="add" onclick="hozzaadas()">Hozzáadás</button> <br>
-              <script>
-              </script>
-              <ul>
-              </ul>
-
-              <button id="tervezes" onclick="tervezes()">Tervezés</button>
-              <div id="plant_selection_error" class="error_message"></div>
-              <div id="plant_quantity_section" style="display:none;">
-                <p>Mennyit szeretne ültetni a különböző kiválasztott növényekből(v)?</p>
-                <div id="plant_quantity_inputs" class="plant_quantity_inputs"></div>
-                <div id="quantity_error_message" class="error_message"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Növény hozzáadása popup -->
-        <div class="popup_overlay" id="add_plant_popup_overlay">
-          <div class="popup">
-              <button class="close_btn" id="close_add_plant_popup">&times;</button>
-              <div class="popup_header">
-                  <h2>Új növény rögzítése</h2>
-              </div>
-              <div class="popup_content">
-                  <div class="input-group">
-                      <label>Növény fajtája:</label>
-                      <select id="new_plant_type" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
-                      </select>
-                  </div>
-                  <div class="input-group">
-                      <label>Növény neve:</label>
-                      <input type="text" id="new_plant_name" placeholder="pl. Vesebab">
-                  </div>
-                  <div class="input-group">
-                      <label>Sortávolság (cm):</label>
-                      <input type="number" id="new_plant_row" placeholder="40">
-                  </div>
-                  <div class="input-group">
-                      <label>Tőtávolság (cm):</label>
-                      <input type="number" id="new_plant_col" placeholder="30">
-                  </div>
-                  <button class="action-btn" id="save_custom_plant" onclick='save_custom_plant()'>Mentés a listába</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Info popup -->
-        <div class="popup_overlay" id="info_popup_overlay">
-          <div class="popup">
-            <button class="close_btn" id="close_info_popup">&times;</button>
-
-            <div class="popup_header">
-              <h2>Információk</h2>
-            </div>
-
-            <div class="popup_content">
-              <p>
-                Üdvözöljük a Kerttervezőben! 🏡<br>
-                Ez az alkalmazás segít neked megtervezni álmaid kertjét egyszerűen és gyorsan. Itt mindent megtalálsz,
-                amire szükséged van a tökéletes kert kialakításához!<br>
-                📐 Mit tudsz csinálni?<br>
-                🖼️ KERTMÉRET MEGADÁSA<br>
-
-                🌸 NÖVÉNYEK KIVÁLASZTÁSA<br>
-
-                🔢 MENNYISÉGEK MEGADÁSA<br>
-
-                ✨ AUTOMATIKUS TERVKÉSZÍTÉS<br>
-
-                🎯 Mire számíthatsz? <br>
-                ✅ Okos javaslatok - mely növények illenek össze<br>
-                ✅ Terület számítás - pontosan látod, mennyi helyre van szükséged<br>
-                ✅ Vizuális terv - áttekinthető elrendezés<br>
-                ✅ Figyelmeztetések - ha valami nem optimális<br>
-                ✅ Menthető tervek - később visszatérhetsz hozzájuk<br>
-
-                🚀 Kezdjük el!<br>
-                Kattints a "Adatok" gombra<br>
-                Add meg a kert méreteit<br>
-                Válaszd ki a kedvenc növényeidet<br>
-                Add meg a darabszámokat<br>
-                Kapsz egy szép kerttervet!
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div class="popup_overlay" id="about_popup_overlay">
-          <div class="popup">
-            <button class="close_btn" id="close_about_popup">&times;</button>
-
-            <div class="popup_header">
-              <h2>Fejlesztők:</h2>
-            </div>
-
-            <div class="popup_content">
-              <p>Szabó István
-                <br>
-                Szabó Botond
-                <br>
-                Bognár Máté Zsolt
-              </p>
-
-              <div style="text-align: center; margin-top: 30px;">
-                <i class="fas fa-seedling" style="font-size: 3rem; color: #8D6E63;"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div id="navbar" class="container-fluid" style="background-color: black; color: gray;
+    margin: 10px;padding: 10px; width: calc(100% - 20px);">
+      bolt
+    </div>
+    <div style="padding: 20px;">
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem beatae dolorem praesentium molestias vitae ea officia veniam inventore harum qui voluptate magni id quae saepe ab, ipsum, similique impedit dignissimos?
+    </div>
+    <div>
+      TERMEKEK
     </div>
   </body>
 </html>
