@@ -1,25 +1,260 @@
 <!DOCTYPE html>
-<html>
-
-  <head>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoShop</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="script.js" defer></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="script.js"></script>
+</head>
+<body>
 
-  </head>
+    <div class="app">
+        <!-- Header -->
+        <div id="header">
+            <script>
+                loadPage("header", "header")
+            </script>
+        </div>
 
-  <body>
-    <div id="navbar" class="container-fluid" style="background-color: black; color: gray;
-    margin: 10px;padding: 10px; width: calc(100% - 20px);">
-      bolt
+        <!-- Auth Screen -->
+        <div id="authScreen" class="screen hidden">
+            <div class="auth-container">
+                <div class="auth-card">
+                    <h2>🚗 Üdv az autószalonunkban!</h2>
+                    <p class="subtitle">Prémium autók vásárlása</p>
+                    
+                    <div class="auth-tabs">
+                        <button class="tab-btn active" data-tab="login" id="bejelentkezesoldalgomb" onclick="bejelentkezesOldal()">Bejelentkezés</button>
+                        <button class="tab-btn" data-tab="register" id="regisztraciosoldalgomb" onclick="regisztracioOldal()">Regisztráció</button>
+                    </div>
+
+                    <!-- Login Form -->
+                    <form id="loginForm" class="auth-form active" method="post" action="login">
+                        <div class="form-group">
+                            <label>Felhasználónév</label>
+                            <input type="text" id="loginUsername" required class="retro-input">
+                        </div>
+                        <div class="form-group">
+                            <label>Jelszó</label>
+                            <input type="password" id="loginPassword" required class="retro-input">
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Belépés</button>
+                    </form>
+
+                    <!-- Register Form -->
+                    <form id="registerForm" class="auth-form">
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" id="registerEmail" required class="retro-input">
+                        </div>
+                        <div class="form-group">
+                            <label>Felhasználónév</label>
+                            <input type="text" id="registerUsername" required class="retro-input">
+                        </div>
+                        <div class="form-group">
+                            <label>Jelszó</label>
+                            <input type="password" id="registerPassword" required class="retro-input">
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Regisztráció</button>
+                    </form>
+
+                    <div class="auth-actions">
+                        <button type="button" id="continueGuestBtn" class="btn btn-outline btn-block" onclick="closeLogin()">Böngészés vendégként</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main App Screen -->
+        <div id="appScreen" class="screen">
+            <div class="container">
+                <!-- Profile Sidebar -->
+                <aside class="sidebar">
+                    <div class="profile-card">
+                        <div class="profile-header">
+                            <div class="avatar">👤</div>
+                            <div class="profile-info">
+                                <h3 id="profileName">...</h3>
+                                <p id="profileEmail" class="muted">...</p>
+                            </div>
+                        </div>
+                        <div class="profile-stats">
+                            <div class="stat">
+                                <span class="stat-value" id="carCount">0</span>
+                                <span class="stat-label">Bérléseim</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-value" id="lastSeen">Ma</span>
+                                <span class="stat-label">Utolsó látogatás</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <nav class="side-nav">
+                        <button class="nav-btn active" data-section="shop">🚗 Autók vásárlása</button>
+                        <button class="nav-btn" data-section="library">📋 Autók eladása</button>
+                        <button class="nav-btn" data-section="profile">👤 Profil</button>
+                        <button id="adminNavBtn" class="nav-btn hidden" data-section="admin">🛠️ Admin</button>
+                    </nav>
+                </aside>
+
+                <!-- Main Content -->
+                <main class="main-content">
+                    <!-- Shop Section -->
+                    <section id="shopSection" class="content-section active">
+                        <div class="section-header">
+                            <h2>🚗 Autók bérlése</h2>
+                            <p>Válassz prémium autóink közül</p>
+                        </div>
+                        <div id="carsGrid" class="cars-grid">
+                            <!-- Cars will be loaded here -->
+                        </div>
+                    </section>
+
+                    <!-- Library Section -->
+                    <section id="librarySection" class="content-section">
+                        <div class="section-header">
+                            <h2>📋 Aktív bérléseim</h2>
+                            <p>Jelenlegi és korábbi bérléseid</p>
+                        </div>
+                        <div id="rentalsGrid" class="cars-grid">
+                            <!-- Rented cars will be loaded here -->
+                        </div>
+                    </section>
+
+                    <!-- Profile Section -->
+                    <section id="profileSection" class="content-section">
+                        <div class="section-header">
+                            <h2>👤 Profil Beállítások</h2>
+                            <p>Személyes adataid</p>
+                        </div>
+                        <div class="profile-details">
+                            <div class="detail-item">
+                                <label>Felhasználónév</label>
+                                <span id="detailUsername">-</span>
+                            </div>
+                            <div class="detail-item">
+                                <label>Email</label>
+                                <span id="detailEmail">-</span>
+                            </div>
+                            <div class="detail-item">
+                                <label>Regisztrálva</label>
+                                <span id="detailJoined">-</span>
+                            </div>
+                            <div class="detail-item">
+                                <label>Bérlések száma</label>
+                                <span id="detailRentals">0</span>
+                            </div>
+                        </div>
+                    </section>
+                
+                    <!-- Admin Section -->
+                    <section id="adminSection" class="content-section">
+                        <div class="section-header">
+                            <h2>🛠️ Admin</h2>
+                            <p>Csak admin felhasználóknak</p>
+                        </div>
+
+                        <div class="admin-tabs">
+                            <button class="btn btn-outline btn-small admin-tab active" data-admin-tab="overview">Áttekintés</button>
+                            <button class="btn btn-outline btn-small admin-tab" data-admin-tab="users">Felhasználók</button>
+                            <button class="btn btn-outline btn-small admin-tab" data-admin-tab="cars">Autók</button>
+                            <button class="btn btn-outline btn-small admin-tab" data-admin-tab="rentals">Bérlések</button>
+                        </div>
+
+                        <div id="adminOverview" class="admin-panel active">
+                            <div class="admin-cards">
+                                <div class="admin-card">
+                                    <div class="admin-card-title">Felhasználók</div>
+                                    <div class="admin-card-value" id="adminUsersCount">-</div>
+                                </div>
+                                <div class="admin-card">
+                                    <div class="admin-card-title">Autók</div>
+                                    <div class="admin-card-value" id="adminCarsCount">-</div>
+                                </div>
+                                <div class="admin-card">
+                                    <div class="admin-card-title">Bérlések</div>
+                                    <div class="admin-card-value" id="adminRentalsCount">-</div>
+                                </div>
+                            </div>
+
+                            <div class="admin-actions">
+                                <button id="adminRefreshBtn" class="btn btn-primary btn-small">Frissítés</button>
+                                <button id="adminDemoBtn" class="btn btn-outline btn-small">Demo autók beszúrása</button>
+                            </div>
+                        </div>
+
+                        <div id="adminUsers" class="admin-panel">
+                            <div class="admin-actions">
+                                <input id="adminUserSearch" class="retro-input" placeholder="Keresés (email/felhasználónév)" />
+                                <button id="adminUserSearchBtn" class="btn btn-primary btn-small">Keresés</button>
+                            </div>
+                            <div class="admin-table-wrap">
+                                <table class="admin-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Email</th>
+                                            <th>Felhasználónév</th>
+                                            <th>Admin</th>
+                                            <th>Regisztráció</th>
+                                            <th>Művelet</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="adminUsersTbody"></tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div id="adminCars" class="admin-panel">
+                            <div class="admin-actions">
+                                <button id="adminNewCarBtn" class="btn btn-primary btn-small">+ Új autó</button>
+                            </div>
+                            <div class="admin-table-wrap">
+                                <table class="admin-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Modell</th>
+                                            <th>Rendszám</th>
+                                            <th>Napi ár</th>
+                                            <th>Kategória</th>
+                                            <th>Művelet</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="adminCarsTbody"></tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div id="adminRentals" class="admin-panel">
+                            <div class="admin-table-wrap">
+                                <table class="admin-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Felhasználó ID</th>
+                                            <th>Autó ID</th>
+                                            <th>Bérlés kezdete</th>
+                                            <th>Bérlés vége</th>
+                                            <th>Művelet</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="adminRentalsTbody"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </section>
+
+                </main>
+            </div>
+        </div>
+
+        <!-- Loading Overlay -->
+        <div id="loadingOverlay" class="loading-overlay hidden">
+            <div class="loading-spinner"></div>
+            <p>Betöltés...</p>
+        </div>
     </div>
-    <div style="padding: 20px;">
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem beatae dolorem praesentium molestias vitae ea officia veniam inventore harum qui voluptate magni id quae saepe ab, ipsum, similique impedit dignissimos?
-    </div>
-    <div>
-      TERMEKEK
-    </div>
-  </body>
+
+</body>
 </html>

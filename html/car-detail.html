@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoBérlő - Autó részletek</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="car-detail.css">
+</head>
+<body>
+    <div class="app">
+        <!-- Header (ugyanaz, mint a main.html-ben) -->
+        <header class="header">
+            <div class="header-content">
+                <h1 class="logo">🚗 AUTOBÉRLŐ</h1>
+                <nav class="nav">
+                    <button id="loginBtn" class="btn btn-outline">Bejelentkezés</button>
+                    <button id="logoutBtn" class="btn btn-outline hidden">Kijelentkezés</button>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Autó részletek tartalom -->
+        <div class="car-detail-container">
+            <!-- Vissza gomb -->
+            <button class="back-button" onclick="window.history.back()">
+                ← Vissza a böngészéshez
+            </button>
+
+            <!-- Fő grid -->
+            <div class="car-detail-grid">
+                <!-- Bal oldal: Galéria -->
+                <div class="car-gallery">
+                    <img id="mainImage" class="main-image" src="" alt="Autó">
+                    <div id="thumbnailContainer" class="thumbnail-grid">
+                        <!-- Thumbnails betöltve JavaScriptből -->
+                    </div>
+                </div>
+
+                <!-- Jobb oldal: Autó info -->
+                <div class="car-info">
+                    <h1 class="car-title" id="carBrandModel"></h1>
+                    
+                    <div class="car-subtitle">
+                        <span class="license-plate" id="licensePlate"></span>
+                        <span id="availabilityBadge" class="availability-badge"></span>
+                    </div>
+
+                    <!-- Specifikációk -->
+                    <div class="specs-grid">
+                        <div class="spec-item">
+                            <div class="spec-label">Évjárat</div>
+                            <div class="spec-value" id="carYear"></div>
+                        </div>
+                        <div class="spec-item">
+                            <div class="spec-label">Kategória</div>
+                            <div class="spec-value" id="carCategory"></div>
+                        </div>
+                        <div class="spec-item">
+                            <div class="spec-label">Váltó</div>
+                            <div class="spec-value" id="transmission"></div>
+                        </div>
+                        <div class="spec-item">
+                            <div class="spec-label">Üzemanyag</div>
+                            <div class="spec-value" id="fuelType"></div>
+                        </div>
+                        <div class="spec-item">
+                            <div class="spec-label">Ülések</div>
+                            <div class="spec-value" id="seats"></div>
+                        </div>
+                        <div class="spec-item">
+                            <div class="spec-label">Ajtók</div>
+                            <div class="spec-value" id="doors"></div>
+                        </div>
+                    </div>
+
+                    <!-- Ár -->
+                    <div class="price-box">
+                        <div class="price-label">Napi bérleti díj</div>
+                        <div class="price-value" id="pricePerDay">0 <small>Ft</small></div>
+                    </div>
+
+                    <!-- Kaució -->
+                    <div class="deposit-info">
+                        <span>Kaució összege:</span>
+                        <strong id="deposit">0 Ft</strong>
+                    </div>
+
+                    <!-- Bérlés gomb -->
+                    <button id="rentNowBtn" class="btn btn-primary btn-block" style="padding: 1rem; font-size: 1.2rem;">
+                        🚗 Autó bérlése
+                    </button>
+                </div>
+            </div>
+
+            <!-- Leírás szekció -->
+            <div class="description-section">
+                <h2 class="description-title">📝 Autó leírása</h2>
+                <div class="description-content" id="carDescription">
+                    <!-- Leírás betöltve -->
+                </div>
+            </div>
+
+            <!-- Bérlési űrlap (alapból rejtve) -->
+            <div id="rentalForm" class="rental-form" style="display: none;">
+                <h2 class="form-title">📅 Bérlés indítása</h2>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Bérlés kezdete</label>
+                        <input type="date" id="startDate" class="retro-input" min="">
+                    </div>
+                    <div class="form-group">
+                        <label>Bérlés vége</label>
+                        <input type="date" id="endDate" class="retro-input" min="">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Átvétel helye</label>
+                        <select id="pickupLocation" class="retro-input">
+                            <option value="">Válassz helyszínt</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Visszaadás helye</label>
+                        <select id="returnLocation" class="retro-input">
+                            <option value="">Válassz helyszínt</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="rental-summary">
+                    <div class="summary-item">
+                        <span>Napi díj:</span>
+                        <span id="summaryDaily">0 Ft</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Napok száma:</span>
+                        <span id="summaryDays">0</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Kaució:</span>
+                        <span id="summaryDeposit">0 Ft</span>
+                    </div>
+                    <div class="summary-item total">
+                        <span>Fizetendő összesen:</span>
+                        <span id="summaryTotal">0 Ft</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Fizetési mód</label>
+                    <select id="paymentMethod" class="retro-input">
+                        <option value="card">Bankkártya</option>
+                        <option value="transfer">Átutalás</option>
+                        <option value="cash">Készpénz (helyszínen)</option>
+                    </select>
+                </div>
+
+                <button id="confirmRentalBtn" class="btn btn-primary btn-block" style="padding: 1rem;">
+                    ✅ Bérlés megerősítése
+                </button>
+                <button id="cancelRentalBtn" class="btn btn-outline btn-block" style="margin-top: 0.5rem;">
+                    Mégse
+                </button>
+            </div>
+
+            <!-- Értékelések szekció -->
+            <div class="reviews-section">
+                <div class="reviews-header">
+                    <h2 class="description-title">⭐ Értékelések</h2>
+                    <div class="average-rating" id="averageRating">
+                        <!-- Betöltve JS-ből -->
+                    </div>
+                </div>
+
+                <div id="reviewsContainer">
+                    <!-- Értékelések betöltve -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Overlay -->
+        <div id="loadingOverlay" class="loading-overlay hidden">
+            <div class="loading-spinner"></div>
+            <p>Betöltés...</p>
+        </div>
+    </div>
+</body>

@@ -1,6 +1,6 @@
 use tokio::{runtime::Id, select};
 use warp::{filters::path::param, reply::{Reply, Response}, Filter};
-use std::{collections::HashMap, fs, os::unix::process, process::Output};
+use std::{collections::HashMap, fs,  process::Output};
 use regex::Regex;
 use dotenvy::dotenv;
 use urlencoding::encode;
@@ -40,8 +40,9 @@ async fn main() {
         let _ = returning.replace("TERMEKEK", "");
         warp::reply::html(returning)
     });
+    let header = warp::path!("header").and(warp::fs::file("html/header.html"));
     let style = warp::path!("style.css").and(warp::fs::file("html/style.css"));
-    let script = warp::path!("script.js").and(warp::fs::file("script.js"));
+    let script = warp::path!("script.js").and(warp::fs::file("html/script.js"));
 
 
     //let num = sqlx::query("SELECT * FROM teszt").persistent(false).fetch_all(&pool).await.unwrap();
@@ -49,7 +50,7 @@ async fn main() {
     //println!("{:?}", num);
     //println!("{:?}", innserted);
 
-    let routes = home.or(style).or(script);
+    let routes = home.or(style).or(script).or(header);
     warp::serve(routes).run(([0,0,0,0], port)).await;
 }
 
